@@ -1,0 +1,88 @@
+@startuml "Cadastrar Promoção"
+
+hide footbox
+skinparam sequenceMessageAlign center
+skinparam participantStyle rectangle
+
+actor "Gerente" as GerenteAtor
+
+participant "InterfaceCadastroPromocao" as Tela
+participant "GerenteController" as Controller
+participant "GerenteService" as GerenteService
+participant "GerenteRepository" as GerenteRepo
+participant "PromocaoService" as PromocaoService
+participant "PromocaoRepository" as PromocaoRepo
+participant "Gerente" as Gerente
+participant "Promocao" as Promocao
+
+GerenteAtor -> Tela: 1: informarDadosPromocao(gerenteId, nome,\ndesconto, dataInicio, dataFim)
+activate Tela
+
+Tela -> Tela: 1.1: validarFormulario(nome, desconto,\ndataInicio, dataFim)
+
+alt Dados inválidos
+    Tela --> GerenteAtor: 1.2: exibirErro("Preencha todos os campos obrigatórios")
+    deactivate Tela
+
+else Dados válidos
+    Tela -> Controller: 1.2: cadastrarPromocao(gerenteId,\nrequest: PromocaoRequest)
+    activate Controller
+
+    Controller -> GerenteService: 1.2.1: cadastrarPromocao(gerenteId, nome,\ndesconto, dataInicio, dataFim)
+    activate GerenteService
+
+    GerenteService -> GerenteRepo: 1.2.1.1: findById(gerenteId)
+    activate GerenteRepo
+
+    alt Gerente não encontrado
+        GerenteRepo --> GerenteService: gerenteNaoEncontrado
+        deactivate GerenteRepo
+
+        GerenteService --> Controller: erro("Gerente não encontrado")
+        deactivate GerenteService
+
+        Controller --> Tela: erro("Gerente não encontrado")
+        deactivate Controller
+
+        Tela --> GerenteAtor: 1.3: exibirErro("Gerente não encontrado")
+        deactivate Tela
+
+    else Gerente encontrado
+        GerenteRepo --> GerenteService: gerente
+        deactivate GerenteRepo
+
+        GerenteService -> PromocaoService: 1.2.1.2: criarPromocao(nome, desconto,\ndataInicio, dataFim)
+        activate PromocaoService
+
+        create Promocao
+        PromocaoService -> Promocao: 1.2.1.2.1: <<create>>
+        activate Promocao
+
+        PromocaoService -> PromocaoRepo: 1.2.1.2.2: save(promocao)
+        activate PromocaoRepo
+        PromocaoRepo --> PromocaoService: promocaoSalva
+        deactivate PromocaoRepo
+
+        PromocaoService --> GerenteService: promocaoSalva
+        deactivate PromocaoService
+
+        GerenteService -> Gerente: 1.2.1.3: adicionarPromocao(promocaoSalva)
+
+        GerenteService -> GerenteRepo: 1.2.1.4: save(gerente)
+        activate GerenteRepo
+        GerenteRepo --> GerenteService: gerenteAtualizado
+        deactivate GerenteRepo
+
+        GerenteService --> Controller: gerenteAtualizado
+        deactivate GerenteService
+
+        Controller --> Tela: promocaoCadastrada(gerenteAtualizado)
+        deactivate Controller
+        deactivate Promocao
+
+        Tela --> GerenteAtor: 1.3: exibirMensagem("Promoção cadastrada com sucesso")
+        deactivate Tela
+    end
+end
+
+@enduml
