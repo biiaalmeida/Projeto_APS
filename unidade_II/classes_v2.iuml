@@ -1,0 +1,136 @@
+@startuml "Diagrama de Classes - Perfumery System"
+skinparam classAttributeIconSize 0
+
+enum NivelAcesso {
+  GERENTE
+  VENDEDOR
+  ADMINISTRADOR
+}
+
+enum TipoRelatorio {
+  VENDAS
+  PRODUTOS
+  PROMOCOES
+}
+
+abstract class Usuario {
+  - id: Long
+  - nome: String
+  - email: String
+  - senha: String
+  - nivelAcesso: NivelAcesso
+  + realizarLogin(email: String, senha: String): void
+  + alterarSenha(novaSenha: String): void
+}
+
+class Administrador {
+  - produtos: List<Produto>
+  + gerenciarUsuarios(): void
+  + cadastrarProdutos(): void
+}
+
+class Gerente {
+  - promocoes: List<Promocao>
+  - relatorios: List<Relatorio>
+  + cadastrarPromocao(promocao: Promocao): void
+  + gerarRelatorio(tipo: TipoRelatorio): Relatorio
+}
+
+class Vendedor {
+  - vendas: List<Venda>
+  + registrarVenda(venda: Venda): void
+  + cadastrarCliente(cliente: Cliente): void
+  + consultarProdutos(): List<Produto>
+}
+
+Usuario <|-- Administrador
+Usuario <|-- Gerente
+Usuario <|-- Vendedor
+
+Usuario --> NivelAcesso : utiliza >
+
+class Cliente {
+  - id: Long
+  - nome: String
+  - cpf: String
+  - telefone: String
+  - email: String
+  - vendas: List<Venda>
+  + cadastrar(): void
+  + editarDados(): void
+  + consultarHistorico(): List<Venda>
+}
+
+class Produto {
+  - id: Long
+  - nome: String
+  - categoria: String
+  - marca: String
+  - preco: Double
+  - descricao: String
+  - imagemUrl: String
+  - administrador: Administrador
+  - promocao: Promocao
+  + cadastrar(): void
+  + consultar(): Produto
+  + alterarPreco(preco: Double): void
+}
+
+class Promocao {
+  - id: Long
+  - nome: String
+  - desconto: double
+  - dataInicio: Date
+  - dataFim: Date
+  - produtos: List<Produto>
+  + cadastrar(): void
+  + aplicarDesconto(valor: Double): Double
+  + verificarValidade(dataAtual: Date): boolean
+}
+
+class Venda {
+  - id: Long
+  - data: Date
+  - valorTotal: Double
+  - cliente: Cliente
+  - vendedor: Vendedor
+  - itens: List<ItemVenda>
+  + registrar(): void
+  + calcularTotal(): void
+  + adicionarItem(item: ItemVenda): void
+}
+
+class ItemVenda {
+  - id: Long
+  - quantidade: Integer
+  - subtotal: Double
+  - venda: Venda
+  - produto: Produto
+  + calcularSubtotal(): void
+}
+
+class Relatorio {
+  - id: Long
+  - tipo: TipoRelatorio
+  - dataInicio: Date
+  - dataFim: Date
+  - gerente: Gerente
+  + gerarRelatorioVendas(): void
+  + gerarRelatorioProdutos(): void
+}
+
+Relatorio --> TipoRelatorio : utiliza >
+
+Administrador "1" <-- "0..*" Produto : cadastra >
+Gerente "1" *-- "0..*" Promocao : gerencia >
+Gerente "1" <-- "0..*" Relatorio : gera >
+
+Cliente "1" <-- "0..*" Venda : realiza >
+Vendedor "1" <-- "0..*" Venda : registra >
+
+Venda "1" *-- "1..*" ItemVenda : possui >
+Produto "1" <-- "0..*" ItemVenda : compõe >
+
+Promocao "0..1" <-- "0..*" Produto : aplica >
+
+@enduml
