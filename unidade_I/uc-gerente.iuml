@@ -1,0 +1,19 @@
+@startuml
+left to right direction
+
+actor "Gerente" as Gerente
+
+rectangle "Sistema para Perfumaria" {
+
+  usecase "Login de usuários" as UC_Login
+  usecase "Cadastrar promoção" as UC_CadastrarPromocao
+  usecase "Gerar relatório\nde vendas por período" as UC_RelatorioVendas
+  usecase "Gerar relatório de\nprodutos mais vendidos" as UC_RelatorioProdutos
+}
+
+Gerente --> UC_Login
+Gerente --> UC_CadastrarPromocao
+Gerente --> UC_RelatorioVendas
+Gerente --> UC_RelatorioProdutos
+
+@enduml

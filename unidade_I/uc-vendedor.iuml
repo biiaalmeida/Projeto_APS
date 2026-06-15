@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+
+actor "Vendedor" as Vendedor
+
+rectangle "Sistema para Perfumaria" {
+
+  usecase "Login de usuários" as UC_Login
+  usecase "Consultar produto" as UC_ConsultarProduto
+  usecase "Cadastrar cliente" as UC_CadastrarCliente
+  usecase "Editar dados\ndo cliente" as UC_EditarCliente
+  usecase "Registrar venda" as UC_RegistrarVenda
+  usecase "Aplicar promoção" as UC_AplicarPromocao
+  usecase "Consultar histórico\ndo cliente" as UC_HistoricoCliente
+}
+
+Vendedor --> UC_Login
+Vendedor --> UC_ConsultarProduto
+Vendedor --> UC_CadastrarCliente
+Vendedor --> UC_EditarCliente
+Vendedor --> UC_RegistrarVenda
+Vendedor --> UC_AplicarPromocao
+Vendedor --> UC_HistoricoCliente
+
+@enduml

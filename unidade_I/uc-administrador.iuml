@@ -1,0 +1,21 @@
+@startuml
+left to right direction
+
+actor "Administrador" as Administrador
+
+rectangle "Sistema para Perfumaria" {
+
+  usecase "Login de usuários" as UC_Login
+  usecase "Cadastrar produto" as UC_CadastrarProduto
+  usecase "Cadastrar promoção" as UC_CadastrarPromocao
+  usecase "Gerenciar usuários" as UC_GerenciarUsuarios
+  usecase "Controlar níveis\nde acesso" as UC_NiveisAcesso
+}
+
+Administrador --> UC_Login
+Administrador --> UC_CadastrarProduto
+Administrador --> UC_CadastrarPromocao
+Administrador --> UC_GerenciarUsuarios
+Administrador --> UC_NiveisAcesso
+
+@enduml
