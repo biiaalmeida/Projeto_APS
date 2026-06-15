@@ -1,0 +1,44 @@
+@startuml "Realizar Venda"
+
+start
+
+:Iniciar venda;
+:Selecionar cliente;
+:Selecionar vendedor;
+:Adicionar produto à venda;
+
+repeat
+    :Buscar produto;
+    :Informar quantidade;
+
+    if (Produto encontrado?) then (sim)
+        :Verificar promoção ativa;
+
+        if (Possui promoção válida?) then (sim)
+            :Aplicar desconto;
+        else (não)
+            :Manter preço original;
+        endif
+
+        :Calcular subtotal do item;
+        :Adicionar item à venda;
+    else (não)
+        :Exibir erro "Produto não encontrado";
+    endif
+
+repeat while (Deseja adicionar outro produto?) is (sim)
+
+:Calcular valor total da venda;
+:Confirmar venda;
+
+if (Venda confirmada?) then (sim)
+    :Registrar venda;
+    :Salvar itens da venda;
+    :Exibir mensagem "Venda realizada com sucesso";
+else (não)
+    :Cancelar operação;
+endif
+
+stop
+
+@enduml
