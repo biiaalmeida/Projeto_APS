@@ -21,7 +21,6 @@ Tela -> Tela: 1.1: validarFormulario(nome, marca, categoria,\npreco, descricao, 
 
 alt Dados inválidos
     Tela --> Admin: 1.2: exibirErro("Preencha todos os campos obrigatórios")
-    deactivate Tela
 
 else Dados válidos
     Tela -> Controller: 1.2: cadastrar(request: ProdutoRequest)
@@ -50,7 +49,10 @@ else Dados válidos
         Service -> Produto: 1.2.2.4: setPromocao(promocao)
     end
 
-    Service -> ProdutoRepo: 1.2.3: save(produto)
+    Produto --> Service: 1.2.2.5: produtoAtualizado
+    deactivate Produto
+
+    Service -> ProdutoRepo: 1.2.3: save(produtoAtualizado)
     activate ProdutoRepo
     ProdutoRepo --> Service: produtoSalvo
     deactivate ProdutoRepo
@@ -59,11 +61,11 @@ else Dados válidos
     deactivate Service
 
     Controller --> Tela: produtoSalvo
-    deactivate Produto
     deactivate Controller
 
     Tela --> Admin: 1.3: exibirMensagem("Produto cadastrado com sucesso")
-    deactivate Tela
 end
+
+deactivate Tela
 
 @enduml
