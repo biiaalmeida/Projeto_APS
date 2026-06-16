@@ -1,8 +1,8 @@
 <img src="https://i0.wp.com/assecom.ufersa.edu.br/wp-content/uploads/sites/24/2014/09/PNG-bras%C3%A3o-Ufersa.png?resize=194%2C300&ssl=1" alt="Logo" align="right" width="140" />
 
-# Tracker
+# Perfumary System
 
-Repositório destinado ao desenvolvimento do projeto Tracker, uma aplicação de gerenciamento de tarefas para a disciplina de Análise e Projeto de Sistemas Orientados a Objetos, ministrada pelo professor Ferdinandy Chagas.
+Repositório destinado ao desenvolvimento de uma aplicação para auxiliar o atendimento e as vendas de uma perfumaria, para a disciplina de Análise e Projeto de Sistemas Orientados a Objetos, ministrada pelo professor Ferdinandy Chagas.
 
 
 
