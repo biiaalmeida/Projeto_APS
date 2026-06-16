@@ -2,16 +2,14 @@
 
 start
 
-:Iniciar venda;
 :Selecionar cliente;
 :Selecionar vendedor;
-:Adicionar produto à venda;
 
 repeat
     :Buscar produto;
-    :Informar quantidade;
 
     if (Produto encontrado?) then (sim)
+        :Informar quantidade;
         :Verificar promoção ativa;
 
         if (Possui promoção válida?) then (sim)
@@ -21,19 +19,19 @@ repeat
         endif
 
         :Calcular subtotal do item;
-        :Adicionar item à venda;
+        :Adicionar item ao carrinho;
     else (não)
         :Exibir erro "Produto não encontrado";
+        stop
     endif
 
-repeat while (Deseja adicionar outro produto?) is (sim)
+repeat while (Deseja adicionar outro produto?) is (sim) not (não)
 
 :Calcular valor total da venda;
 :Confirmar venda;
 
 if (Venda confirmada?) then (sim)
     :Registrar venda;
-    :Salvar itens da venda;
     :Exibir mensagem "Venda realizada com sucesso";
 else (não)
     :Cancelar operação;
