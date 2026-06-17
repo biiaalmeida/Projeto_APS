@@ -2,7 +2,7 @@ package com.aromas.perfumaria.entity;
 
 
 import java.util.Date;
-import com.system.perfumary.enums.TipoRelatorio;
+import com.aromas.perfumaria.enums.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

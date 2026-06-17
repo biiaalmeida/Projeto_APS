@@ -1,7 +1,7 @@
 package com.aromas.perfumaria.entity;
 
 
-import com.system.perfumary.enums.NivelAcesso;
+import com.aromas.perfumaria.enums.*;
 
 import jakarta.persistence.*;
 import lombok.*;
