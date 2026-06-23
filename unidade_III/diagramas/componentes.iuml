@@ -1,0 +1,51 @@
+@startuml "Diagrama de Componentes - Aura Gold"
+
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam wrapWidth 160
+skinparam linetype ortho
+skinparam nodesep 90
+skinparam ranksep 80
+
+left to right direction
+
+package "Frontend" {
+  [Cliente Web\nTypeScript] as Web
+}
+
+package "Backend\nSpring Boot / Java" {
+
+  [API REST\nControllers] as API
+
+  [Serviços de Negócio] as Services
+
+  package "Módulos do Sistema" {
+    [Autenticação] as Auth
+    [Usuários] as Usuarios
+    [Clientes] as Clientes
+    [Produtos] as Produtos
+    [Promoções] as Promocoes
+    [Vendas] as Vendas
+    [Relatórios] as Relatorios
+  }
+
+  [Persistência\nRepositories] as Repo
+}
+
+database "PostgreSQL" as DB
+
+Web ..> API : HTTP/JSON
+API ..> Services : requisita serviços
+
+Services ..> Auth
+Services ..> Usuarios
+Services ..> Clientes
+Services ..> Produtos
+Services ..> Promocoes
+Services ..> Vendas
+Services ..> Relatorios
+
+Services ..> Repo :      acessa dados
+Repo ..> DB : JPA/Hibernate
+
+@enduml
