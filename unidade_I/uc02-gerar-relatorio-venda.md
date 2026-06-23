@@ -30,27 +30,19 @@ Alta
 
 ##### P2.2 Sistema exibe as opções de relatórios disponíveis;
 
-##### P2.3 Gerente seleciona a opção "Relatório de Vendas por Período";
+##### P2.3 Gerente seleciona a opção "Grafico gerencial"; A1
 
-##### P2.4 Sistema solicita o período desejado;
+##### P2.4 Sistema exibe os gráficos e dados gerenciais de faturamento;
 
-##### P2.5 Gerente informa o período para consulta;
-
-##### P2.6 Sistema busca as vendas registradas no período informado;
-
-##### P2.7 Sistema gera o relatório de vendas;
-
-##### P2.8 Sistema exibe o relatório para o Gerente;
-
-##### P2.9 Caso de uso finalizado.
+##### P2.5 Caso de uso finalizado.
 
 ### 7. Fluxo Alternativo
 
-#### A1. Período sem vendas registradas
+#### A1. Vendas Não registradas
 
-##### A1.1 Sistema identifica que não existem vendas registradas no período informado;
+##### A1.1 Sistema identifica que não existem vendas registradas;
 
-##### A1.2 Sistema exibe a mensagem "Não há vendas registradas para o período selecionado";
+##### A1.2 Sistema exibe a mensagem "Não há vendas registradas";
 
 ##### A1.3 Caso de uso finalizado.
 

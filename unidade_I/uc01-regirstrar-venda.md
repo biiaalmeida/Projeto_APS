@@ -37,27 +37,24 @@ Alta
 
 ##### P1.4 Sistema exibe os produtos selecionados e seus respectivos valores;
 
-##### P1.5 Vendedor informa o cliente, caso necessário;
+##### P1.5 Vendedor informa o cliente, caso necessário; A1
 
-##### P1.6 Vendedor seleciona a opção "Aplicar Promoção"; A1
+##### P1.6 Sistema calcula o valor final da compra;
 
-##### P1.7 Sistema calcula o valor final da compra;
+##### P1.7 Vendedor confirma o registro da venda;
 
-##### P1.8 Vendedor confirma o registro da venda;
+##### P1.8 Sistema exibe a mensagem "Venda registrada com sucesso!";
 
-##### P1.9 Sistema exibe a mensagem "Venda registrada com sucesso!";
-
-##### P1.10 Caso de uso finalizado.
+##### P1.9 Caso de uso finalizado.
 
 ### 7. Fluxo Alternativo
 
-#### A1. Aplicar Promoção
+#### A1. Cliente deseja cancelar venda
 
-##### A1.1 Vendedor seleciona uma promoção disponível;
+##### A1.1 Vendedor clica em voltar;
 
-##### A1.2 Sistema aplica a promoção à venda;
+##### A1.2 Sistema retorna ao menu principal;
 
-##### A1.3 Sistema atualiza o valor final da compra; P1.7
 
 ### 8. Fluxo de Exceção
 
