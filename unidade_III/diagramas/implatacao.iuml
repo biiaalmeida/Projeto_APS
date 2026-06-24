@@ -1,0 +1,111 @@
+@startuml "Diagrama de Implantação - Aura Gold"
+
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam wrapWidth 170
+skinparam linetype ortho
+skinparam nodesep 120
+skinparam ranksep 110
+skinparam ArrowFontSize 10
+skinparam defaultTextAlignment center
+skinparam packageStyle rectangle
+
+left to right direction
+
+node "Cliente\nBrowser" as Cliente {
+  artifact "Navegador Web" as Browser
+}
+
+cloud "AWS Route 53\nDNS" as DNS
+
+node "AWS EC2\nInstância Única de Produção" as EC2 {
+
+  node "Apache HTTP Server\nServidor Web" as ServidorWeb {
+
+    package "Frontend\nReact + TypeScript\nimplantado na EC2" as Frontend {
+      artifact "Build Estático\nReact/Vite\ndist/" as BuildReact
+
+      component "Navegação e Rotas\nApp.tsx" as Rotas
+      component "Controle de Acesso\nProtectedRoute.tsx\nlocalStorage" as ControleAcesso
+
+      package "Interfaces de Usuário" as InterfacesUI {
+        component "Interface de\nAutenticação\nLogin.tsx" as InterfaceAuth
+        component "Área Administrativa\nAreaAdministracao.tsx\nDashboard.tsx" as InterfaceAdmin
+        component "Gestão de Usuários\nCadastroCliente\nCadastroGerente\nCadastroVendedor\nVendedores" as InterfaceUsuarios
+        component "Produtos, Promoções\ne Catálogo\nListagemProdutos\nCadastroProduto\nCadastroPromocao\nCatalogoCliente" as InterfaceProdutos
+        component "Vendas e Compras\nRegistroVenda\nHistoricoCompras" as InterfaceVendas
+        component "Relatórios\nRelatorioVendas" as InterfaceRelatorios
+      }
+
+      component "Cliente HTTP\nservices/api.ts\nfetch()" as ClienteHTTP
+    }
+  }
+
+  node "Processo Backend\nSpring Boot / Java" as ServidorAplicacao {
+    artifact "Aplicação Backend\nJAR Java" as JarBackend
+
+    component "API REST\nControllers" as API
+    component "Serviços de Negócio" as Services
+
+    package "Módulos do Sistema" as Modulos {
+      component "Autenticação\ne Acesso" as Auth
+      component "Usuários" as Usuarios
+      component "Clientes" as Clientes
+      component "Produtos" as Produtos
+      component "Promoções" as Promocoes
+      component "Vendas" as Vendas
+      component "Relatórios" as Relatorios
+    }
+
+    component "Persistência\nRepositories" as Repo
+  }
+
+  node "SGBD Local\nPostgreSQL" as ServidorBD {
+    database "Banco de Dados\nAura Gold" as DB
+  }
+}
+
+
+Browser ..> DNS :\nconsulta domínio
+DNS ..> EC2 :\nresolve para IP\nda instância
+Browser ..> ServidorWeb :\nHTTPS\nacessa sistema
+ServidorWeb ..> Frontend :\nserve aplicação\nReact/Vite
+Frontend ..> BuildReact :\nartefatos estáticos
+
+
+Rotas ..> InterfaceAuth :\nrota pública
+Rotas ..> ControleAcesso :\nrotas protegidas
+ControleAcesso ..> InterfaceAdmin
+ControleAcesso ..> InterfaceUsuarios
+ControleAcesso ..> InterfaceProdutos
+ControleAcesso ..> InterfaceVendas
+ControleAcesso ..> InterfaceRelatorios
+
+InterfaceAuth ..> ClienteHTTP :\nautentica usuário
+InterfaceAdmin ..> ClienteHTTP :\nconsulta dados
+InterfaceUsuarios ..> ClienteHTTP :\ngerencia usuários
+InterfaceProdutos ..> ClienteHTTP :\ngerencia catálogo
+InterfaceVendas ..> ClienteHTTP :\ngerencia vendas
+InterfaceRelatorios ..> ClienteHTTP :\nconsulta relatórios
+
+
+ClienteHTTP ..> API :\nHTTP/JSON\nrequisições REST\nvia /api
+ServidorWeb ..> API :\nproxy reverso
+
+
+JarBackend ..> API :\nexpõe endpoints
+API ..> Services :\nrequisita serviços
+
+Services ..> Auth
+Services ..> Usuarios
+Services ..> Clientes
+Services ..> Produtos
+Services ..> Promocoes
+Services ..> Vendas
+Services ..> Relatorios
+Services ..> Repo :\nacessa dados
+
+
+Repo ..> DB :\nJPA/Hibernate
+
+@enduml
